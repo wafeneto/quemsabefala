@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
- import {  Button,  TextInput, StyleSheet, SafeAreaView, FlatList, Text, View } from 'react-native';
+ import {  Button,  TextInput, StyleSheet, SafeAreaView, FlatList, Text, View, Pressable } from 'react-native';
  import SelectDropdown from 'react-native-select-dropdown'
 
  import RNPickerSelect from 'react-native-picker-select';
@@ -26,6 +26,8 @@ var sentenca = ""
     pergunta.sentenca = sentenca;
     pergunta.assunto = new Object()
     pergunta.assunto.codigo = assunto;
+    pergunta.colaborador = new Object()
+    pergunta.colaborador.codigo = colaborador.codigo
 
     var retorno = Kodefy.runUrl('https://quemsabefala.conectasuas.com.br/mentorMw/rodaTransacao',"transacaoMentor=397&moduloMentor=mw&objPergunta="+JSON.stringify(pergunta))
 
@@ -39,7 +41,7 @@ body: "transacaoMentor=397&moduloMentor=mw&objPergunta=" + JSON.stringify(pergun
 });
 */
 
-    alert("jjj aaa qui- " +  retorno)
+    alert("jjj aaa qui- " +  JSON.stringify(retorno))
   }
 
   var atualizando = false
@@ -59,13 +61,27 @@ body: "transacaoMentor=397&moduloMentor=mw&objPergunta=" + JSON.stringify(pergun
      json[x].label = json[x].nome
      json[x].value = json[x].codigo
     }
-        setData(json)
-        alert(json.length)
-      setSentenca(json[2].nome)
+        setAssuntos(json)
       }
         )
         .catch((error) => console.error(error))
         .finally(() => setLoading(false));
+
+
+    fetch('https://quemsabefala.conectasuas.com.br/mentorMw/rodaVisao?visaoMentor=667&varcodigo='+colaborador.codigo)
+        .then((response) => response.json()) 
+        .then((json2) => 
+        
+    {
+      
+      if(json2.perguntas != null)
+        setPerguntas(json2.perguntas)
+      }
+        )
+        .catch((error) => console.error(error))
+        .finally(() => setLoading(false));
+
+
     }, []); 
   }
 
@@ -74,8 +90,13 @@ body: "transacaoMentor=397&moduloMentor=mw&objPergunta=" + JSON.stringify(pergun
    const [data, setData] = useState([]);
 
    const [sentenca, setSentenca] = useState("");
-
    const [assunto, setAssunto] = useState("1");
+
+
+   const [assuntos, setAssuntos] = useState([]);
+
+
+   const [perguntas, setPerguntas] = useState([]);
 
 
    function seta(valor){
@@ -85,7 +106,11 @@ body: "transacaoMentor=397&moduloMentor=mw&objPergunta=" + JSON.stringify(pergun
 
    
    
-
+function titulo(item){
+  if(item.respostas == null)
+    item.respostas = new Array()
+  return "Respostas [" + item.respostas.length + "]"
+}
   
 
   inicia()
@@ -96,13 +121,23 @@ body: "transacaoMentor=397&moduloMentor=mw&objPergunta=" + JSON.stringify(pergun
        {isLoading ? <Text>Loading...</Text> : 
        ( <View style={{ flex: 1, flexDirection: 'column', justifyContent:  'space-between'}}>
            <Text style={{ fontSize: 14, color: 'green', textAlign: 'center', paddingBottom: 10}}>
-       {assunto} {colaborador.nome}
+       {assunto} {colaborador.nome} -{perguntas.length}-
             Dados do StackOverFlow:</Text>
            <FlatList
-             data={data}
+             data={perguntas}
              keyExtractor={(item, codigo) => codigo}
-             renderItem={({ item }) => (
-               <Text>{'[' + item.codigo + ']' + '\n' + item.nome + '\n\n' }</Text>
+             renderItem={({ item }) => (  
+                <View>
+                <Text> Pergunta: 
+       {item.sentenca}
+                </Text>
+                <View>
+                <Button
+        title={titulo(item)}
+        onPress={() => alert(9)}
+      />
+                  </View>
+                </View>
              )}
 
 
@@ -118,7 +153,7 @@ body: "transacaoMentor=397&moduloMentor=mw&objPergunta=" + JSON.stringify(pergun
 
 <RNPickerSelect
       onValueChange={(value) => seta(value)}
-      items={data}
+      items={assuntos}
               value = {2}
 
 
