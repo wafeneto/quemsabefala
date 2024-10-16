@@ -8,6 +8,7 @@ import * as React from 'react';
 
  import HomeScreen from './home';
  import AboutScreen from './about';
+ import ChangeLogin from './changeLogin'; 
 
 
 
@@ -34,6 +35,7 @@ export default  function   Abas() {
     <Tab.Navigator>
     <Tab.Screen name='Home' component={HomeScreen} />
     <Tab.Screen name='About' component={AboutScreen} />
+    <Tab.Screen name='Login' component={ChangeLogin} />
     </Tab.Navigator>
   );
 }

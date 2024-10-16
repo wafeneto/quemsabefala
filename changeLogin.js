@@ -10,10 +10,8 @@ import{Kodefy} from './lib'
 
 import { useState } from 'react';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
-export default  function   Login({navigation}) {
+export default  function   ChangeLogin({navigation}) {
 
 
 
@@ -26,21 +24,12 @@ export default  function   Login({navigation}) {
     if(usu == null){
       alert("usario nao encontrado")
     }else{
+      alert(usu.nome)
       Kodefy.colaborador = usu
-      try {
-        await AsyncStorage.setItem(
-          'logedUser',
-          JSON.stringify(usu),
-        );
-      } catch (error) {
-        alert("Erro ao persistir usuario " + error)
-        return
-      }
-     alert(Kodefy.colaborador)
       navigation.navigate("aba",{nome:"waldyr"})
     }
 
-   
+      
 
 
     //navigation.navigate("aba",{nome:"waldyr"})
@@ -50,12 +39,6 @@ export default  function   Login({navigation}) {
 
   const [senha, setSenha] = useState("");
   
-  AsyncStorage.getItem("logedUser").then(a => {
-    var usu = JSON.parse(a);
-    Kodefy.colaborador = usu;
-    navigation.navigate("aba",{nome:"waldyr"})
-
-  })
 
   return (
     <View style={{ flex: 1, padding: 24 }}>

@@ -1,5 +1,20 @@
 export class Kodefy {
 
+	static async runUrl(url: String, par: String, callback: any){
+
+
+	var retorno: any = await fetch('https://quemsabefala.conectasuas.com.br/mentorMw/rodaTransacao', {
+  					method: 'POST',
+  					headers: new Headers({
+    					'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8' // <-- Specifying the Content-Type
+						}),
+					body: "transacaoMentor=397&moduloMentor=mw&objPergunta=" + JSON.stringify(pergunta)
+					});
+	retorno = retorno.json();
+	return retorno;
+	}
+
+
 	static urlConexao: String;
 
 	static mostraSql: boolean;
@@ -239,4 +254,3 @@ export class TimeServerProces{
 	   }
 }
 
-alert(9);
