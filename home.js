@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, View, FlatList, Button, Text, TextInput, StyleSheet } from 'react-native';
+import { document, title, SafeAreaView, View, FlatList, Button, Text, TextInput, StyleSheet } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
+
+
 import { Kodefy } from './lib.js';
 
 const MyComponent = () => {
@@ -10,6 +12,8 @@ const MyComponent = () => {
   const [sentenca, setSentenca] = useState('');
   const [assuntos, setAssuntos] = useState([]);
   const [assunto, setAssunto] = useState(2); // Altere para estado
+
+  const [mostraNovo, setMostraNovo] = useState(false);
 
   const seta = (valor) => {
     setAssunto(valor);
@@ -45,6 +49,10 @@ const MyComponent = () => {
     }
   };
 
+  function novaPergunta(){
+    setMostraNovo(true)
+  }
+
   const addItem = async () => {
     try {
       const pergunta = {
@@ -57,6 +65,7 @@ const MyComponent = () => {
       await Kodefy.runUrl('https://quemsabefala.conectasuas.com.br/mentorMw/rodaTransacao', `transacaoMentor=397&moduloMentor=mw&objPergunta=${JSON.stringify(pergunta)}`);
       setSentenca(''); // Limpa o campo de entrada
       fetchPerguntas(); // Atualiza a lista após a inserção
+      setMostraNovo(false)
     } catch (error) {
       alert(error);
     }
@@ -67,25 +76,52 @@ const MyComponent = () => {
     fetchPerguntas();
   }, []);
 
+  function labelResposta(item){
+    if(item.respostas == null)
+      item.respostas = new Array()
+    return "Respostas ["+item.respostas.length+"]"
+  }
   return (
     <View>
-      <Text>--{perguntas.length}--</Text>
+      
+      <Text>{colaborador.nome}</Text>
+
+      { ! mostraNovo && 
       <FlatList
         data={perguntas}
         extraData={perguntas}
         keyExtractor={item => item.key}
         renderItem={({ item }) => (
-          <View>
-            <Text>Pergunta: {item.sentenca}</Text>
+          <View style={styles.label} >
+            <Text  >Pergunta: {item.sentenca}</Text>
+            <Button
+          title={labelResposta(item)}
+          onPress={addItem}
+        />
           </View>
-        )}
-      />
+        )}/>
+}
+
+
+  { ! mostraNovo && 
+<Button
+          title="Nova Pergunta!"
+          onPress={novaPergunta}
+        />
+}
+
+
+      { mostraNovo && 
       <SafeAreaView>
+        <Text>Texto da Pergunta</Text>
         <TextInput
           style={styles.input}
           onChangeText={setSentenca}
           value={sentenca}
+          label={ 'Email'}
         />
+
+    
         <RNPickerSelect
           onValueChange={setAssunto}
           items={assuntos}
@@ -99,6 +135,7 @@ const MyComponent = () => {
           onPress={addItem}
         />
       </SafeAreaView>
+}
     </View>
   );
 };
@@ -110,6 +147,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
   },
+  label:{
+    fontSize: 20,
+    fontStyle: 'normal',
+    paddingBottom: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    borderBottomColor: 'black',
+    borderBottomWidth: 1
+  }
 });
 
 export default MyComponent;

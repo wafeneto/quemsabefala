@@ -33,7 +33,7 @@ export default  function   Abas() {
 
   return (
     <Tab.Navigator>
-    <Tab.Screen name='Home' component={HomeScreen} />
+    <Tab.Screen name='Home' component={HomeScreen} options={{ title: 'Minhas Perguntas' }} />
     <Tab.Screen name='About' component={AboutScreen} />
     <Tab.Screen name='Login' component={ChangeLogin} />
     </Tab.Navigator>

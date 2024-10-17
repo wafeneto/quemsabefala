@@ -171,6 +171,7 @@ function titulo(item){
 
             
            />
+{ mostraNovo && 
 
 <SafeAreaView>
 <TextInput
@@ -197,6 +198,7 @@ function titulo(item){
 
 
     </SafeAreaView>
+ }
 
        
 
