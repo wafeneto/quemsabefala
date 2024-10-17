@@ -1,185 +1,107 @@
 import React, { useEffect, useState } from 'react';
- import {  Button,  TextInput, StyleSheet, SafeAreaView, FlatList, Text, View, Pressable } from 'react-native';
- import SelectDropdown from 'react-native-select-dropdown'
-
- import RNPickerSelect from 'react-native-picker-select';
+import { SafeAreaView, View, FlatList, Button, Text, TextInput, StyleSheet } from 'react-native';
+import RNPickerSelect from 'react-native-picker-select';
 import { Kodefy } from './lib.js';
- 
 
- 
+const MyComponent = () => {
+  const colaborador = Kodefy.colaborador;
 
- 
-var sentenca = ""
- function setaTexto(valor){
-  
-  sentenca = valor
- }
- export default App = () => {
+  const [perguntas, setPerguntas] = useState([]);
+  const [sentenca, setSentenca] = useState('');
+  const [assuntos, setAssuntos] = useState([]);
+  const [assunto, setAssunto] = useState(2); // Altere para estado
 
+  const seta = (valor) => {
+    setAssunto(valor);
+  };
 
-  var colaborador = Kodefy.colaborador
-  
-
-  async function   inserePergunta(){
-    var pergunta = new Object();
-    pergunta.codigo = 0;
-    pergunta.sentenca = sentenca;
-    pergunta.assunto = new Object()
-    pergunta.assunto.codigo = assunto;
-    pergunta.colaborador = new Object()
-    pergunta.colaborador.codigo = colaborador.codigo
-
-    var retorno = Kodefy.runUrl('https://quemsabefala.conectasuas.com.br/mentorMw/rodaTransacao',"transacaoMentor=397&moduloMentor=mw&objPergunta="+JSON.stringify(pergunta))
-
-    /*
-   var retorno = await fetch('https://quemsabefala.conectasuas.com.br/mentorMw/rodaTransacao', {
-  method: 'POST',
-  headers: new Headers({
-    'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8' // <-- Specifying the Content-Type
-}),
-body: "transacaoMentor=397&moduloMentor=mw&objPergunta=" + JSON.stringify(pergunta)
-});
-*/
-
-    alert("jjj aaa qui- " +  JSON.stringify(retorno))
-  }
-
-  var atualizando = false
-
-  async function inicia(){
-
-    
-    useEffect(() => {
-
-   
-    
-      fetch('https://quemsabefala.conectasuas.com.br/mentorMw/rodaVisao?visaoMentor=669')
-        .then((response) => response.json()) 
-        .then((json) => 
-        
-    {for(var x = 0;x<json.length;x++){
-     json[x].label = json[x].nome
-     json[x].value = json[x].codigo
+  const fetchAssuntos = async () => {
+    try {
+      const response = await fetch('https://quemsabefala.conectasuas.com.br/mentorMw/rodaVisao?visaoMentor=669');
+      const json = await response.json();
+      const formattedAssuntos = json.map(item => ({
+        label: item.nome,
+        value: item.codigo,
+      }));
+      setAssuntos(formattedAssuntos);
+    } catch (error) {
+      console.error(error);
     }
-        setAssuntos(json)
-      }
-        )
-        .catch((error) => console.error(error))
-        .finally(() => setLoading(false));
+  };
 
+  const fetchPerguntas = async () => {
+    try {
+      const response = await fetch(`https://quemsabefala.conectasuas.com.br/mentorMw/rodaVisao?visaoMentor=667&varcodigo=${colaborador.codigo}`);
+      const result = await response.json();
+      if(result.perguntas == null)
+        result.perguntas = new Array()
+      const formattedPerguntas = result.perguntas.map((item, index) => ({
+        ...item,
+        key: String(item.codigo), // Use um identificador único
+      }));
+      setPerguntas(formattedPerguntas);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-    fetch('https://quemsabefala.conectasuas.com.br/mentorMw/rodaVisao?visaoMentor=667&varcodigo='+colaborador.codigo)
-        .then((response) => response.json()) 
-        .then((json2) => 
-        
-    {
-      
-      if(json2.perguntas != null)
-        setPerguntas(json2.perguntas)
-      }
-        )
-        .catch((error) => console.error(error))
-        .finally(() => setLoading(false));
+  const addItem = async () => {
+    try {
+      const pergunta = {
+        codigo: 0,
+        sentenca,
+        assunto: { codigo: assunto },
+        colaborador: { codigo: colaborador.codigo },
+      };
 
+      await Kodefy.runUrl('https://quemsabefala.conectasuas.com.br/mentorMw/rodaTransacao', `transacaoMentor=397&moduloMentor=mw&objPergunta=${JSON.stringify(pergunta)}`);
+      setSentenca(''); // Limpa o campo de entrada
+      fetchPerguntas(); // Atualiza a lista após a inserção
+    } catch (error) {
+      alert(error);
+    }
+  };
 
-    }, []); 
-  }
+  useEffect(() => {
+    fetchAssuntos(); // Busca dados quando o componente é montado
+    fetchPerguntas();
+  }, []);
 
-
-   const [isLoading, setLoading] = useState(true);
-   const [data, setData] = useState([]);
-
-   const [sentenca, setSentenca] = useState("");
-   const [assunto, setAssunto] = useState("1");
-
-
-   const [assuntos, setAssuntos] = useState([]);
-
-
-   const [perguntas, setPerguntas] = useState([]);
-
-
-   function seta(valor){
-    setAssunto(valor)
-   // alert("- voce selecionou " + valor + " - " + sentenca)
-   }
-
-   
-   
-function titulo(item){
-  if(item.respostas == null)
-    item.respostas = new Array()
-  return "Respostas [" + item.respostas.length + "]"
-}
-  
-
-  inicia()
-
-   return (
- 
-     <View style={{ flex: 1, padding: 24 }}>
-       {isLoading ? <Text>Loading...</Text> : 
-       ( <View style={{ flex: 1, flexDirection: 'column', justifyContent:  'space-between'}}>
-           <Text style={{ fontSize: 14, color: 'green', textAlign: 'center', paddingBottom: 10}}>
-       {assunto} {colaborador.nome} -{perguntas.length}-
-            Dados do StackOverFlow:</Text>
-           <FlatList
-             data={perguntas}
-             keyExtractor={(item, codigo) => codigo}
-             renderItem={({ item }) => (  
-                <View>
-                <Text> Pergunta: 
-       {item.sentenca}
-                </Text>
-                <View>
-                <Button
-        title={titulo(item)}
-        onPress={() => alert(9)}
+  return (
+    <View>
+      <Text>--{perguntas.length}--</Text>
+      <FlatList
+        data={perguntas}
+        extraData={perguntas}
+        keyExtractor={item => item.key}
+        renderItem={({ item }) => (
+          <View>
+            <Text>Pergunta: {item.sentenca}</Text>
+          </View>
+        )}
       />
-                  </View>
-                </View>
-             )}
-
-
-            
-           />
-
-<SafeAreaView>
-<TextInput
-        style={styles.input}
-        onChangeText={setSentenca}
-        value={sentenca}
-      />
-
-<RNPickerSelect
-      onValueChange={(value) => seta(value)}
-      items={assuntos}
-              value = {2}
-
-
-              pickerProps={{
-                accessibilityLabel: "seleciona",
-              }}
-    />
-     
-     <Button
-        title="Insere Pergunta ! "
-        onPress={() => inserePergunta()}
-      />
-
-
-    </SafeAreaView>
-
-       
-
-
-
-         </View>
-       )}
-     </View>
-   );
- };
-
+      <SafeAreaView>
+        <TextInput
+          style={styles.input}
+          onChangeText={setSentenca}
+          value={sentenca}
+        />
+        <RNPickerSelect
+          onValueChange={setAssunto}
+          items={assuntos}
+          value={assunto}
+          pickerProps={{
+            accessibilityLabel: "seleciona",
+          }}
+        />
+        <Button
+          title="Insere Pergunta!"
+          onPress={addItem}
+        />
+      </SafeAreaView>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   input: {
@@ -189,3 +111,5 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
+
+export default MyComponent;

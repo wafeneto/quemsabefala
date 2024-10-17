@@ -16,8 +16,8 @@ export class Kodefy {
                 }),
               body: par
               });
-      retorno = await retorno.json();
-      return retorno;
+      retorno = await retorno.text();
+      //alert(retorno);
       }
    
       static async runQry( visao){
