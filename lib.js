@@ -4,6 +4,10 @@ import React, { useEffect, useState } from 'react';
 export class Kodefy {
 
   static colaborador = null;
+  static pergunta = null;
+  static indPerg = -1;
+  static perguntas = null;
+
   
 
     static async runUrl(url, par){

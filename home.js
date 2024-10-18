@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState ,useCallback} from 'react';
 import { document, title, SafeAreaView, View, FlatList, Button, Text, TextInput, StyleSheet } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 
+import { useFocusEffect } from '@react-navigation/native';
 
 import { Kodefy } from './lib.js';
 
@@ -14,14 +15,20 @@ const MyComponent = ({navigation}) => {
   const [assunto, setAssunto] = useState(2); // Altere para estado
 
   const [mostraNovo, setMostraNovo] = useState(false);
+  const [indPerg, setIndPerg] = useState(-1); // Altere para estado
 
   const seta = (valor) => {
     setAssunto(valor);
   };
 
-  function navegaResp(pergunta){
-    console.log("oxe" + (pergunta.sentenca))
-    navigation.navigate("respostas",{nome:"waldyr"})
+  async function navegaResp(pergunta,index){
+
+    Kodefy.pergunta = pergunta
+    Kodefy.indPerg = (index)
+    Kodefy.perguntas = perguntas
+
+    console.log(Kodefy.indPerg)
+    navigation.navigate("respostas")
   }
 
   const fetchAssuntos = async () => {
@@ -47,6 +54,7 @@ const MyComponent = ({navigation}) => {
       const formattedPerguntas = result.perguntas.map((item, index) => ({
         ...item,
         key: String(item.codigo), // Use um identificador único
+        colaborador: colaborador
       }));
       setPerguntas(formattedPerguntas);
     } catch (error) {
@@ -82,6 +90,21 @@ const MyComponent = ({navigation}) => {
     fetchPerguntas();
   }, [navigation]);
 
+
+
+  useFocusEffect(
+    useCallback(() => {
+     if(Kodefy.pergunta != null){
+      
+
+      var pergs = new Array();
+      pergs = JSON.parse(JSON.stringify(Kodefy.perguntas))
+      setPerguntas(pergs)
+      console.log("passei pelo reload" + Kodefy.indPerg)
+     }
+    }, [])
+  );
+
   function labelResposta(item){
     if(item.respostas == null)
       item.respostas = new Array()
@@ -97,12 +120,12 @@ const MyComponent = ({navigation}) => {
         data={perguntas}
         extraData={perguntas}
         keyExtractor={item => item.key}
-        renderItem={({ item }) => (
+        renderItem={({ item ,index}) => (
           <View style={styles.label} >
             <Text  >Pergunta: {item.sentenca}</Text>
             <Button style={styles.button}
           title={labelResposta(item)}
-          onPress={() => navegaResp(item)}
+          onPress={() => navegaResp(item,index)}
         />
           </View>
         )}/>

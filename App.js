@@ -15,7 +15,16 @@ import * as React from 'react';
  function App() {
      return (
      <NavigationContainer>
-         <Stack.Navigator>
+         <Stack.Navigator
+          screenOptions={{
+            headerStyle: { backgroundColor: '#f4511e' }, // Cor de fundo do cabeçalho
+            headerTintColor: '#fff', // Cor do texto do cabeçalho
+            headerTitleStyle: { fontWeight: 'bold' }, // Estilo do título
+          }}
+         >
+
+        
+
          <Stack.Screen name='login' component={Login} />
          <Stack.Screen name='aba' component={Abas} options={{ headerShown: false }}  />
          <Stack.Screen name='respostas' component={Respostas} options={{ headerShown: true }}  />

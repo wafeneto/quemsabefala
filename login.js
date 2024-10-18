@@ -15,8 +15,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default  function   Login({navigation}) {
 
-alert(navigation)
-
   async function flogin(navigation){
     alert("login" + navigation)
 
@@ -36,7 +34,6 @@ alert(navigation)
         alert("Erro ao persistir usuario " + error)
         return
       }
-     alert(Kodefy.colaborador)
       navigation.navigate("aba",{nome:"waldyr"})
     }
 
