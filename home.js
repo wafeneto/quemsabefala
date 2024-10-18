@@ -5,7 +5,7 @@ import RNPickerSelect from 'react-native-picker-select';
 
 import { Kodefy } from './lib.js';
 
-const MyComponent = () => {
+const MyComponent = ({navigation}) => {
   const colaborador = Kodefy.colaborador;
 
   const [perguntas, setPerguntas] = useState([]);
@@ -18,6 +18,11 @@ const MyComponent = () => {
   const seta = (valor) => {
     setAssunto(valor);
   };
+
+  function navegaResp(pergunta){
+    console.log("oxe" + (pergunta.sentenca))
+    navigation.navigate("respostas",{nome:"waldyr"})
+  }
 
   const fetchAssuntos = async () => {
     try {
@@ -72,9 +77,10 @@ const MyComponent = () => {
   };
 
   useEffect(() => {
+
     fetchAssuntos(); // Busca dados quando o componente é montado
     fetchPerguntas();
-  }, []);
+  }, [navigation]);
 
   function labelResposta(item){
     if(item.respostas == null)
@@ -94,9 +100,9 @@ const MyComponent = () => {
         renderItem={({ item }) => (
           <View style={styles.label} >
             <Text  >Pergunta: {item.sentenca}</Text>
-            <Button
+            <Button style={styles.button}
           title={labelResposta(item)}
-          onPress={addItem}
+          onPress={() => navegaResp(item)}
         />
           </View>
         )}/>
@@ -155,6 +161,11 @@ const styles = StyleSheet.create({
     marginRight: 10,
     borderBottomColor: 'black',
     borderBottomWidth: 1
+  },
+  button:{
+    padding: 10,
+    marginTop: 40,
+    color: "red"
   }
 });
 

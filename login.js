@@ -15,7 +15,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default  function   Login({navigation}) {
 
-
+alert(navigation)
 
   async function flogin(navigation){
     alert("login" + navigation)

@@ -7,6 +7,9 @@ import * as React from 'react';
 
  import Abas from './abas';
 
+
+ import Respostas from './respostas';
+
  const Stack = createNativeStackNavigator();
 
  function App() {
@@ -14,7 +17,8 @@ import * as React from 'react';
      <NavigationContainer>
          <Stack.Navigator>
          <Stack.Screen name='login' component={Login} />
-         <Stack.Screen name='aba' component={Abas} />
+         <Stack.Screen name='aba' component={Abas} options={{ headerShown: false }}  />
+         <Stack.Screen name='respostas' component={Respostas} options={{ headerShown: true }}  />
          </Stack.Navigator>
      </NavigationContainer>
      );
