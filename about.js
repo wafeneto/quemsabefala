@@ -15,6 +15,7 @@ const AboutScreen = () => {
 
   const fetchPerguntas = async () => {
     try {
+      console.log("pegando perguntas")
       const response = await fetch(`https://quemsabefala.conectasuas.com.br/mentorMw/rodaVisao?visaoMentor=668&varcodigo=${colaborador.codigo}`);
       const result = await response.json();
       if(result.perguntas == null)
@@ -46,7 +47,7 @@ function showAnsw(){
   return (
     <View>
       
-      <Text>{colaborador.nome}</Text>
+      <Text>{colaborador.nome} ss</Text>
 
     
       <FlatList

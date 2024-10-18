@@ -85,7 +85,7 @@ const MyComponent = ({navigation}) => {
   };
 
   useEffect(() => {
-
+console.log("useefect")
     fetchAssuntos(); // Busca dados quando o componente é montado
     fetchPerguntas();
   }, [navigation]);
@@ -94,15 +94,21 @@ const MyComponent = ({navigation}) => {
 
   useFocusEffect(
     useCallback(() => {
-     if(Kodefy.pergunta != null){
-      
-
-      var pergs = new Array();
+     {
+      console.log("use foculs")
+fetchPerguntas()
+    /*  var pergs = new Array();
       pergs = JSON.parse(JSON.stringify(Kodefy.perguntas))
       setPerguntas(pergs)
       console.log("passei pelo reload" + Kodefy.indPerg)
      }
+    
+    */
+    }
     }, [])
+
+    
+
   );
 
   function labelResposta(item){
