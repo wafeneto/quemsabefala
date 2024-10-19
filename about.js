@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState , useCallback} from 'react';
 import { document, title, SafeAreaView, View, FlatList, Button, Text, TextInput, StyleSheet } from 'react-native';
 
 
+import { useFocusEffect } from '@react-navigation/native';
 
 import { Kodefy } from './lib.js';
 
-const AboutScreen = () => {
+const AboutScreen = ({navigation}) => {
   const colaborador = Kodefy.colaborador;
 
   const [perguntas, setPerguntas] = useState([]);
@@ -18,9 +19,10 @@ const AboutScreen = () => {
       console.log("pegando perguntas")
       const response = await fetch(`https://quemsabefala.conectasuas.com.br/mentorMw/rodaVisao?visaoMentor=668&varcodigo=${colaborador.codigo}`);
       const result = await response.json();
-      if(result.perguntas == null)
-        result.perguntas = new Array()
-      const formattedPerguntas = result.perguntas.map((item, index) => ({
+      console.log(" perguntas -> " + result)
+      if(result == null)
+        result = new Array()
+      const formattedPerguntas = result.map((item, index) => ({
         ...item,
         key: String(item.codigo), // Use um identificador único
       }));
@@ -30,14 +32,36 @@ const AboutScreen = () => {
     }
   };
 
-function showAnsw(){
+function navegaResp(pergunta,index){
 
+  Kodefy.pergunta = pergunta
+  Kodefy.indPerg = (index)
+  Kodefy.perguntas = perguntas
+
+  console.log(Kodefy.indPerg)
+  navigation.navigate("respostas")
 }
+
  
 
   useEffect(() => {
     fetchPerguntas();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+     {
+      console.log("use foculs")
+fetchPerguntas()
+    /*  var pergs = new Array();
+      pergs = JSON.parse(JSON.stringify(Kodefy.perguntas))
+      setPerguntas(pergs)
+      console.log("passei pelo reload" + Kodefy.indPerg)
+     }
+    
+    */
+    }
+    }, []))
 
   function labelResposta(item){
     if(item.respostas == null)
@@ -54,13 +78,13 @@ function showAnsw(){
         data={perguntas}
         extraData={perguntas}
         keyExtractor={item => item.key}
-        renderItem={({ item }) => (
+        renderItem={({ item , index }) => (
           <View style={styles.label} >
             <Text  >Pergunta: {item.sentenca}</Text>
             <Text  >Assunto: {item.assunto.nome}</Text>
             <Button style={styles.button}
           title={labelResposta(item)}
-          onPress={showAnsw}
+          onPress={() => navegaResp(item,index)}
         />
           </View>
         )}/>

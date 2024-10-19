@@ -49,9 +49,8 @@ export default  function   Respostas({navigation}) {
     <View style={{ flex: 1, padding: 24 }}>
     <View style={{ flex: 1, flexDirection: 'column', justifyContent:  'space-between'}}>
         <Text style={{ fontSize: 14, color: 'green', textAlign: 'center', paddingBottom: 10}}>
-    {pergunta.sentenca}
-    {pergunta.assunto.nome}
-    {pergunta.colaborador.codigo}
+    Pergunta: {pergunta.sentenca}
+    Assunto: {pergunta.assunto.nome}
     {sentenca}
 </Text>
 
@@ -61,9 +60,9 @@ export default  function   Respostas({navigation}) {
         data={frespostas}
         extraData={frespostas}
         keyExtractor={item => item.key}
-        renderItem={({ item }) => (
+        renderItem={({ item, index }) => (
           <View style={styles.label} >
-            <Text  >Pergunta: {item.sentenca}</Text> 
+            <Text  >resposta[{index + 1}]: {item.sentenca}</Text> 
             </View> )}
             />
             
@@ -73,7 +72,7 @@ export default  function   Respostas({navigation}) {
 </View>
 
 <SafeAreaView>
-        <Text>Texto da Resposta</Text>
+        <Text>Texto para resposta</Text>
         <TextInput
           style={styles.input}
           onChangeText={setSentenca}

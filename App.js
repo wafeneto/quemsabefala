@@ -1,5 +1,5 @@
 import * as React from 'react';
- import { View, Text } from 'react-native';
+ import { View, Text , ImageBackground, StyleSheet} from 'react-native';
  import { NavigationContainer } from '@react-navigation/native';
  import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -17,9 +17,16 @@ import * as React from 'react';
      <NavigationContainer>
          <Stack.Navigator
           screenOptions={{
-            headerStyle: { backgroundColor: '#f4511e' }, // Cor de fundo do cabeçalho
-            headerTintColor: '#fff', // Cor do texto do cabeçalho
-            headerTitleStyle: { fontWeight: 'bold' }, // Estilo do título
+            headerBackground: () => (
+              <ImageBackground
+                source={{ uri: 'https://quemsabefala.conectasuas.com.br/mentorMw/imgs/quemsabefala.png' }} // URL da sua imagem
+                style={styles.headerBackground}
+              />
+            ),
+            headerTintColor: 'white', // Cor do texto do cabeçalho
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
           }}
          >
 
@@ -32,5 +39,19 @@ import * as React from 'react';
      </NavigationContainer>
      );
  }
+
+
+ const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerBackground: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
  export default App;
