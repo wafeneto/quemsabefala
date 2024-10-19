@@ -16,8 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default  function   Login({navigation}) {
 
   async function flogin(navigation){
-    alert("login" + navigation)
-
+   
     var usu = await fetch('https://quemsabefala.conectasuas.com.br/mentorMw/rodaVisao?mwExibeSql=true&visaoMentor=667&varmatricula=' + login + "&varsenha=" + senha)
     usu = await usu.json();
 
@@ -34,7 +33,7 @@ export default  function   Login({navigation}) {
         alert("Erro ao persistir usuario " + error)
         return
       }
-      navigation.navigate("aba",{nome:"waldyr"})
+      navigation.navigate("quem sabe fala",{nome:"waldyr"})
     }
 
    
@@ -50,7 +49,7 @@ export default  function   Login({navigation}) {
   AsyncStorage.getItem("logedUser").then(a => {
     var usu = JSON.parse(a);
     Kodefy.colaborador = usu;
-    navigation.navigate("aba",{nome:"waldyr"})
+    navigation.navigate("quem sabe fala",{nome:"waldyr"})
 
   })
 

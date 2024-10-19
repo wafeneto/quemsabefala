@@ -6,8 +6,11 @@ import * as React from 'react';
  import { NavigationContainer } from '@react-navigation/native';
  import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+ import Icon from 'react-native-vector-icons/Ionicons'; // Exemplo usando Ionicons
+
+
  import HomeScreen from './home';
- import AboutScreen from './about';
+ import PergScreen from './perguntas';
  import ChangeLogin from './changeLogin'; 
 
  import { useEffect } from 'react';
@@ -30,9 +33,28 @@ export default  function    Abas({navigation}) {
 
   
   return (
-    <Tab.Navigator>
-    <Tab.Screen name='Home' component={HomeScreen} options={{ title: 'Minhas Perguntas',  headerLeft: null}} />
-    <Tab.Screen name='About' component={AboutScreen} options={{ title: 'Perguntas Lancadas' }}  />
+    <Tab.Navigator
+    screenOptions={({ route }) => ({
+      tabBarIcon: ({ focused, color, size }) => {
+        let iconName;
+
+        if (route.name === 'Home') {
+          iconName = focused ? 'flag' : 'flag-outline';
+        } else if (route.name === 'Perguntas') {
+          iconName = focused ? 'flash' : 'flash-outline';
+        }
+        else if (route.name === 'Login') {
+          iconName = focused ? 'person' : 'person-outline';
+        }
+
+        return <Icon name={iconName} size={size} color={color} />;
+      },
+    })}
+    
+    
+    >
+    <Tab.Screen name='Home' component={HomeScreen} options={{ title: 'Minhas Perguntas',headerLeft: () => null, }} />
+    <Tab.Screen name='Perguntas' component={PergScreen} options={{ title: 'Perguntas Lancadas' }}  />
     <Tab.Screen name='Login' component={ChangeLogin} options={{ title: 'Trocar Usuario' }} />
     </Tab.Navigator>
   );

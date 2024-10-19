@@ -19,21 +19,23 @@ import * as React from 'react';
           screenOptions={{
             headerBackground: () => (
               <ImageBackground
-                source={{ uri: 'https://quemsabefala.conectasuas.com.br/mentorMw/imgs/quemsabefala.png' }} // URL da sua imagem
+                source={{ uri: 'https://quemsabefala.conectasuas.com.br/mentorMw/imgs/quemsabefala.png?a' }} // URL da sua imagem
                 style={styles.headerBackground}
               />
+        
             ),
             headerTintColor: 'white', // Cor do texto do cabeçalho
             headerTitleStyle: {
               fontWeight: 'bold',
             },
+            headerLeft: () => null 
           }}
          >
 
         
 
          <Stack.Screen name='login' component={Login} />
-         <Stack.Screen name='aba' component={Abas} options={{ headerShown: false }}  />
+         <Stack.Screen name='quem sabe fala' component={Abas} options={{ headerShown: false ,headerLeft: () => null }}  />
          <Stack.Screen name='respostas' component={Respostas} options={{ headerShown: true }}  />
          </Stack.Navigator>
      </NavigationContainer>

@@ -7,7 +7,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Kodefy } from './lib.js';
 
 const MyComponent = ({navigation}) => {
-  const colaborador = Kodefy.colaborador;
+  var colaborador = Kodefy.colaborador;
 
   const [perguntas, setPerguntas] = useState([]);
   const [sentenca, setSentenca] = useState('');
@@ -47,7 +47,8 @@ const MyComponent = ({navigation}) => {
 
   const fetchPerguntas = async () => {
     try {
-      const response = await fetch(`https://quemsabefala.conectasuas.com.br/mentorMw/rodaVisao?visaoMentor=667&varcodigo=${colaborador.codigo}`);
+      console.log("vou pegar perguntas de ")
+      const response = await fetch(`https://quemsabefala.conectasuas.com.br/mentorMw/rodaVisao?visaoMentor=667&varcodigo=` + Kodefy.colaborador.codigo);
       const result = await response.json();
       if(result.perguntas == null)
         result.perguntas = new Array()
@@ -95,6 +96,8 @@ console.log("useefect")
   useFocusEffect(
     useCallback(() => {
      {
+      olaborador = Kodefy.colaborador
+
       console.log("use foculs")
 fetchPerguntas()
     /*  var pergs = new Array();

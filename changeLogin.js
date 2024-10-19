@@ -2,6 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import { Button,  TextInput, StyleSheet, SafeAreaView, Text, View } from 'react-native';
 
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import * as React from 'react';
 
 
@@ -16,20 +18,27 @@ export default  function   ChangeLogin({navigation}) {
 
 
   async function flogin(navigation){
-    alert("login" + navigation)
-
+   
     var usu = await fetch('https://quemsabefala.conectasuas.com.br/mentorMw/rodaVisao?mwExibeSql=true&visaoMentor=667&varmatricula=' + login + "&varsenha=" + senha)
     usu = await usu.json();
 
     if(usu == null){
       alert("usario nao encontrado")
     }else{
-      alert(usu.nome)
       Kodefy.colaborador = usu
-      navigation.navigate("aba",{nome:"waldyr"})
+      try {
+        await AsyncStorage.setItem(
+          'logedUser',
+          JSON.stringify(usu),
+        );
+      } catch (error) {
+        alert("Erro ao persistir usuario " + error)
+        return
+      }
+      navigation.goBack()
     }
 
-      
+   
 
 
     //navigation.navigate("aba",{nome:"waldyr"})
@@ -44,7 +53,7 @@ export default  function   ChangeLogin({navigation}) {
     <View style={{ flex: 1, padding: 24 }}>
     <View style={{ flex: 1, flexDirection: 'column', justifyContent:  'space-between'}}>
         <Text style={{ fontSize: 14, color: 'green', textAlign: 'center', paddingBottom: 10}}>
-inicio
+Troque o usuario logado ...
 </Text></View>
 
 
@@ -58,13 +67,17 @@ inicio
 <TextInput
         style={styles.input}
         onChangeText={setSenha}
+
+        placeholder="Digite sua senha"
+        secureTextEntry={true} // 
+
         value={senha}
       />
 
 
      
      <Button
-        title="Insere Pergunta ! "
+        title="Troca o Usuario ! "
         onPress={() => flogin(navigation)}
       />
 
