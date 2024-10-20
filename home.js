@@ -31,7 +31,7 @@ const MyComponent = ({navigation}) => {
     navigation.navigate("respostas")
   }
 
-  const fetchAssuntos = async () => {
+  const fetchAssuntos = async () => { // recuperar pergunta do servico web [diagrama Listagem de Assuntos]
     try {
       const response = await fetch('https://quemsabefala.conectasuas.com.br/mentorMw/rodaVisao?visaoMentor=669');
       const json = await response.json();
@@ -45,9 +45,9 @@ const MyComponent = ({navigation}) => {
     }
   };
 
-  const fetchPerguntas = async () => {
+  const fetchPerguntas = async () => {  // recuperar pergunta do servico web [diagrama Listagem de perguntas]
     try {
-      console.log("vou pegar perguntas de ")
+      
       const response = await fetch(`https://quemsabefala.conectasuas.com.br/mentorMw/rodaVisao?visaoMentor=667&varcodigo=` + Kodefy.colaborador.codigo);
       const result = await response.json();
       if(result.perguntas == null)
@@ -57,17 +57,20 @@ const MyComponent = ({navigation}) => {
         key: String(item.codigo), // Use um identificador único
         colaborador: colaborador
       }));
-      setPerguntas(formattedPerguntas);
+      setPerguntas(formattedPerguntas);  // recuperar pergunta do servico web [diagrama Listagem de perguntas]
     } catch (error) {
       console.error(error);
     }
   };
 
   function novaPergunta(){
+     // alterar visualisacao para modulo de inserir pergunta
     setMostraNovo(true)
   }
 
   const addItem = async () => {
+
+    // inserir pergunta servico web [diagrama salvar pergunta]
     try {
       const pergunta = {
         codigo: 0,
@@ -86,7 +89,7 @@ const MyComponent = ({navigation}) => {
   };
 
   useEffect(() => {
-console.log("useefect")
+    // tratar desenho inicial da tela carregando perguntas de um usuario atualmente logado e assuntos para popular modulo de nova pergunta
     fetchAssuntos(); // Busca dados quando o componente é montado
     fetchPerguntas();
   }, [navigation]);
@@ -94,27 +97,20 @@ console.log("useefect")
 
 
   useFocusEffect(
+    // tratar recarga de tela apos persistir novas respostas ou trocar usuario logado em telas auxiliares
     useCallback(() => {
      {
-      olaborador = Kodefy.colaborador
+      colaborador = Kodefy.colaborador
 
-      console.log("use foculs")
-fetchPerguntas()
-    /*  var pergs = new Array();
-      pergs = JSON.parse(JSON.stringify(Kodefy.perguntas))
-      setPerguntas(pergs)
-      console.log("passei pelo reload" + Kodefy.indPerg)
-     }
-    
-    */
+      fetchPerguntas()
+   
     }
     }, [])
-
-    
 
   );
 
   function labelResposta(item){
+    // tratamento dinamico do label do botao para detalhar respostas de uma pergunta apresentando ja o total de respostas cadastradasß
     if(item.respostas == null)
       item.respostas = new Array()
     return "Respostas ["+item.respostas.length+"]"

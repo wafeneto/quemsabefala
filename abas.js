@@ -31,6 +31,7 @@ export default  function    Abas({navigation}) {
     });
   }, [navigation]);
 
+  // tela principal do sistema apresentando modulos no modelo de abas com icones
   
   return (
     <Tab.Navigator

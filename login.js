@@ -16,24 +16,40 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default  function   Login({navigation}) {
 
   async function flogin(navigation){
+
+    if(login == ""){
+      alert("Necessario informar um login!")
+      return
+    }
+
+    if(senha == ""){
+      alert("Necessario informar uma senha!")
+      return
+    }
+
+    // servico do servidor para tentar recuperar usuario a partir do login e senha [diagrama login usuario]
    
     var usu = await fetch('https://quemsabefala.conectasuas.com.br/mentorMw/rodaVisao?mwExibeSql=true&visaoMentor=667&varmatricula=' + login + "&varsenha=" + senha)
     usu = await usu.json();
 
     if(usu == null){
+      // credenciais passadas nao conferem com usuarios cadastrados
       alert("usario nao encontrado")
     }else{
-      Kodefy.colaborador = usu
+
+      // credenciais validas
+
+      Kodefy.colaborador = usu // registra usuario no servico para comparttilhar com demais telas
       try {
         await AsyncStorage.setItem(
           'logedUser',
           JSON.stringify(usu),
-        );
+        ); // persiste usuario logado para inibir necessidade de novo login no proximo acesso
       } catch (error) {
         alert("Erro ao persistir usuario " + error)
         return
       }
-      navigation.navigate("quem sabe fala",{nome:"waldyr"})
+      navigation.navigate("quem sabe fala") // navega para tela com funcionalidades do sistema
     }
 
    
@@ -47,8 +63,15 @@ export default  function   Login({navigation}) {
   const [senha, setSenha] = useState("");
   
   AsyncStorage.getItem("logedUser").then(a => {
+
+    if(a == null){
+      // tratamento do primeiro acesso sem usuario no storage
+      return
+    }
     var usu = JSON.parse(a);
-    Kodefy.colaborador = usu;
+    Kodefy.colaborador = usu // registra usuario no servvico para compartilhar com demais telas
+
+    // recuperando usuario do storage e navegando para tela com funcionalidades do sistema
     navigation.navigate("quem sabe fala",{nome:"waldyr"})
 
   })

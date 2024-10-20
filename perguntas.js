@@ -11,22 +11,22 @@ const PergScreen = ({navigation}) => {
 
   const [perguntas, setPerguntas] = useState([]);
  
+// apresenta perguntas passiveis do usuario logado responder
 
 
 
-  const fetchPerguntas = async () => {
+  const fetchPerguntas = async () => { // recuperar pergunta do servico web [diagrama Listagem de perguntas]
     try {
-      console.log("pegando perguntas")
-      const response = await fetch(`https://quemsabefala.conectasuas.com.br/mentorMw/rodaVisao?visaoMentor=668&varcodigo=${colaborador.codigo}`);
+      const response = await fetch(`https://quemsabefala.conectasuas.com.br/mentorMw/rodaVisao?visaoMentor=668&varcodigo=` + Kodefy.colaborador.codigo);
       const result = await response.json();
-      console.log(" perguntas -> " + result)
+
       if(result == null)
         result = new Array()
       const formattedPerguntas = result.map((item, index) => ({
         ...item,
         key: String(item.codigo), // Use um identificador único
       }));
-      setPerguntas(formattedPerguntas);
+      setPerguntas(formattedPerguntas); // registra perguntas recuperadas no state
     } catch (error) {
       console.error(error);
     }
@@ -38,32 +38,31 @@ function navegaResp(pergunta,index){
   Kodefy.indPerg = (index)
   Kodefy.perguntas = perguntas
 
-  console.log(Kodefy.indPerg)
+  // navega para tela de respostas registrando pergunta no servico
   navigation.navigate("respostas")
 }
 
  
 
   useEffect(() => {
+    // tratar carga inicial da tela
     fetchPerguntas();
   }, []);
 
   useFocusEffect(
     useCallback(() => {
      {
-      console.log("use foculs")
-fetchPerguntas()
-    /*  var pergs = new Array();
-      pergs = JSON.parse(JSON.stringify(Kodefy.perguntas))
-      setPerguntas(pergs)
-      console.log("passei pelo reload" + Kodefy.indPerg)
-     }
-    
-    */
+      
+      colaborador = Kodefy.colaborador
+    // tratar recarga de tela apos persistir novas respostas ou trocar usuario logado em telas auxiliares
+      fetchPerguntas()
     }
     }, []))
 
   function labelResposta(item){
+// tratamento dinamico do label do botao para detalhar respostas de uma pergunta apresentando ja o total de respostas cadastradasß
+   
+
     if(item.respostas == null)
       item.respostas = new Array()
     return "Respostas ["+item.respostas.length+"]"

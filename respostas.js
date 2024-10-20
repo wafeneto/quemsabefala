@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button,  FlatList, TextInput, StyleSheet, SafeAreaView, Text, View } from 'react-native';
+import { Button, br,  FlatList, TextInput, StyleSheet, SafeAreaView, Text, View } from 'react-native';
 
 
 import * as React from 'react';
@@ -11,9 +11,9 @@ import{Kodefy} from './lib'
 import { useState } from 'react';
 
 
-export default  function   Respostas({navigation}) {
+export default  function   Respostas({navigation}) {// recuperar pergunta do servico web [diagrama Listagem de perguntas]
 
-  pergunta = Kodefy.pergunta
+  pergunta = Kodefy.pergunta // pegando pergunta do servico setado em tela anterior
 
   const frespostas = pergunta.respostas.map((item, index) => ({
     ...item,
@@ -22,7 +22,7 @@ export default  function   Respostas({navigation}) {
   }));
   
 
-  const addItem = async () => {
+  const addItem = async () => { // persistir resposta de uma pergunta [diagrama manter pergunta com respostas]
     try {
       resposta = new Object()
       resposta.codigo = 0
@@ -33,7 +33,8 @@ export default  function   Respostas({navigation}) {
       
 
      await Kodefy.runUrl('https://quemsabefala.conectasuas.com.br/mentorMw/rodaTransacao', `transacaoMentor=397&moduloMentor=mw&objPergunta=${JSON.stringify(pergunta)}`);
-      setSentenca(''); // Limpa o campo de entrada
+      await alert("Resposta salvaa com sucesso.")
+      navigation.goBack()
      Kodefy.pergunta = pergunta
     } catch (error) {
       alert(error);
@@ -48,8 +49,9 @@ export default  function   Respostas({navigation}) {
   return (
     <View style={{ flex: 1, padding: 24 }}>
     <View style={{ flex: 1, flexDirection: 'column', justifyContent:  'space-between'}}>
-        <Text style={{ fontSize: 14, color: 'green', textAlign: 'center', paddingBottom: 10}}>
+        <Text style={{ fontSize: 14, color: 'green', textAlign: 'center'}}>
     Pergunta: {pergunta.sentenca}
+    {"\n"}
     Assunto: {pergunta.assunto.nome}
     {sentenca}
 </Text>
@@ -72,7 +74,9 @@ export default  function   Respostas({navigation}) {
 </View>
 
 <SafeAreaView>
-        <Text>Texto para resposta</Text>
+        <Text 
+        style = {{ fontSize: 20, color: 'green', textAlign: 'center', paddingTop: 10}}
+        >Texto para resposta</Text>
         <TextInput
           style={styles.input}
           onChangeText={setSentenca}

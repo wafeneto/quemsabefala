@@ -14,27 +14,46 @@ import { useState } from 'react';
 
 
 export default  function   ChangeLogin({navigation}) {
-
+// trocar usuario logado
 
 
   async function flogin(navigation){
+
+
+    if(login == ""){
+      alert("Necessario informar um login!")
+      return
+    }
+
+    if(senha == ""){
+      alert("Necessario informar uma senha!")
+      return
+    }
+
+    // servico do servidor para tentar recuperar usuario a partir do login e senha [diagrama login usuario]
+   
+
    
     var usu = await fetch('https://quemsabefala.conectasuas.com.br/mentorMw/rodaVisao?mwExibeSql=true&visaoMentor=667&varmatricula=' + login + "&varsenha=" + senha)
     usu = await usu.json();
 
     if(usu == null){
+
+      // credenciais passadas nao conferem com usuarios cadastrados
       alert("usario nao encontrado")
     }else{
-      Kodefy.colaborador = usu
-      try {
-        await AsyncStorage.setItem(
-          'logedUser',
-          JSON.stringify(usu),
-        );
-      } catch (error) {
-        alert("Erro ao persistir usuario " + error)
-        return
-      }
+       // credenciais validas
+
+       Kodefy.colaborador = usu // registra usuario no servico para comparttilhar com demais telas
+       try {
+         await AsyncStorage.setItem(
+           'logedUser',
+           JSON.stringify(usu),
+         ); // persiste usuario logado para inibir necessidade de novo login no proximo acesso
+       } catch (error) {
+         alert("Erro ao persistir usuario " + error)
+         return
+       }
       navigation.goBack()
     }
 
