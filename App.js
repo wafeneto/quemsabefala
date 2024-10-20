@@ -7,8 +7,9 @@ import * as React from 'react';
 
  import Abas from './abas';
 
-
  import Respostas from './respostas';
+
+ import CustomHeader from './cabecalho'; // Importar o cabeçalho
 
  const Stack = createNativeStackNavigator();
 
@@ -16,26 +17,17 @@ import * as React from 'react';
      return (
      <NavigationContainer>
          <Stack.Navigator
-          screenOptions={{
-            headerBackground: () => (
-              <ImageBackground
-                source={{ uri: 'https://quemsabefala.conectasuas.com.br/mentorMw/imgs/quemsabefala.png?a' }} // URL da sua imagem
-                style={styles.headerBackground}
-              />
-        
-            ),
-            headerTintColor: 'white', // Cor do texto do cabeçalho
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-            headerLeft: () => null 
-          }}
+          
+          screenOptions={({ route }) => ({
+            header: () => <CustomHeader title={route.name} />,
+          })}
+
          >
 
         
 
          <Stack.Screen name='login' component={Login} />
-         <Stack.Screen name='quem sabe fala' component={Abas} options={{ headerShown: false ,headerLeft: () => null }}  />
+         <Stack.Screen name='quem sabe fala' component={Abas} options={{ headerShown: true }}  />
          <Stack.Screen name='respostas' component={Respostas} options={{ headerShown: true }}  />
          </Stack.Navigator>
      </NavigationContainer>

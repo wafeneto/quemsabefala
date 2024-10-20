@@ -7,7 +7,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Kodefy } from './lib.js';
 
 const PergScreen = ({navigation}) => {
-  const colaborador = Kodefy.colaborador;
+  var colaborador = Kodefy.colaborador;
 
   const [perguntas, setPerguntas] = useState([]);
  
