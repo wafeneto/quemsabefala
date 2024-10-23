@@ -29,7 +29,7 @@ export default  function   Login({navigation}) {
 
     // servico do servidor para tentar recuperar usuario a partir do login e senha [diagrama login usuario]
    
-    var usu = await fetch('https://quemsabefala.conectasuas.com.br/mentorMw/rodaVisao?mwExibeSql=true&visaoMentor=667&varmatricula=' + login + "&varsenha=" + senha)
+    var usu = await fetch('https://quemsabefala.uniconecta.com.br/mentorMw/rodaVisao?mwExibeSql=true&visaoMentor=667&varmatricula=' + login + "&varsenha=" + senha)
     usu = await usu.json();
 
     if(usu == null){

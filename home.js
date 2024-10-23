@@ -33,7 +33,7 @@ const MyComponent = ({navigation}) => {
 
   const fetchAssuntos = async () => { // recuperar pergunta do servico web [diagrama Listagem de Assuntos]
     try {
-      const response = await fetch('https://quemsabefala.conectasuas.com.br/mentorMw/rodaVisao?visaoMentor=669');
+      const response = await fetch('https://quemsabefala.uniconecta.com.br/mentorMw/rodaVisao?visaoMentor=669');
       const json = await response.json();
       const formattedAssuntos = json.map(item => ({
         label: item.nome,
@@ -48,7 +48,7 @@ const MyComponent = ({navigation}) => {
   const fetchPerguntas = async () => {  // recuperar pergunta do servico web [diagrama Listagem de perguntas]
     try {
       
-      const response = await fetch(`https://quemsabefala.conectasuas.com.br/mentorMw/rodaVisao?visaoMentor=667&varcodigo=` + Kodefy.colaborador.codigo);
+      const response = await fetch(`https://quemsabefala.uniconecta.com.br/mentorMw/rodaVisao?visaoMentor=667&varcodigo=` + Kodefy.colaborador.codigo);
       const result = await response.json();
       if(result.perguntas == null)
         result.perguntas = new Array()
@@ -79,7 +79,7 @@ const MyComponent = ({navigation}) => {
         colaborador: { codigo: colaborador.codigo },
       };
 
-      await Kodefy.runUrl('https://quemsabefala.conectasuas.com.br/mentorMw/rodaTransacao', `transacaoMentor=397&moduloMentor=mw&objPergunta=${JSON.stringify(pergunta)}`);
+      await Kodefy.runUrl('https://quemsabefala.uniconecta.com.br/mentorMw/rodaTransacao', `transacaoMentor=397&moduloMentor=mw&objPergunta=${JSON.stringify(pergunta)}`);
       setSentenca(''); // Limpa o campo de entrada
       fetchPerguntas(); // Atualiza a lista após a inserção
       setMostraNovo(false)

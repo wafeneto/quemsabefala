@@ -6,7 +6,7 @@ const CustomHeader = ({ title }) => {
     <View style={styles.header}>
       <Text style={styles.title}>{title} </Text>
       <Image
-        source={{ uri:'https://quemsabefala.conectasuas.com.br/mentorMw/imgs/quemsabefala2.png?a'  }} // substitua pela URL da sua imagem
+        source={{ uri:'https://quemsabefala.uniconecta.com.br/mentorMw/imgs/quemsabefala2.png?a'  }} // substitua pela URL da sua imagem
         style={styles.image}
       />
     </View>

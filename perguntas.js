@@ -17,7 +17,7 @@ const PergScreen = ({navigation}) => {
 
   const fetchPerguntas = async () => { // recuperar pergunta do servico web [diagrama Listagem de perguntas]
     try {
-      const response = await fetch(`https://quemsabefala.conectasuas.com.br/mentorMw/rodaVisao?visaoMentor=668&varcodigo=` + Kodefy.colaborador.codigo);
+      const response = await fetch(`https://quemsabefala.uniconecta.com.br/mentorMw/rodaVisao?visaoMentor=668&varcodigo=` + Kodefy.colaborador.codigo);
       const result = await response.json();
 
       if(result == null)

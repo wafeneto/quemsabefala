@@ -32,7 +32,7 @@ export default  function   Respostas({navigation}) {// recuperar pergunta do ser
 
       
 
-     await Kodefy.runUrl('https://quemsabefala.conectasuas.com.br/mentorMw/rodaTransacao', `transacaoMentor=397&moduloMentor=mw&objPergunta=${JSON.stringify(pergunta)}`);
+     await Kodefy.runUrl('https://quemsabefala.uniconecta.com.br/mentorMw/rodaTransacao', `transacaoMentor=397&moduloMentor=mw&objPergunta=${JSON.stringify(pergunta)}`);
       await alert("Resposta salvaa com sucesso.")
       navigation.goBack()
      Kodefy.pergunta = pergunta

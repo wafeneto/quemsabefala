@@ -34,7 +34,7 @@ export default  function   ChangeLogin({navigation}) {
    
 
    
-    var usu = await fetch('https://quemsabefala.conectasuas.com.br/mentorMw/rodaVisao?mwExibeSql=true&visaoMentor=667&varmatricula=' + login + "&varsenha=" + senha)
+    var usu = await fetch('https://quemsabefala.uniconecta.com.br/mentorMw/rodaVisao?mwExibeSql=true&visaoMentor=667&varmatricula=' + login + "&varsenha=" + senha)
     usu = await usu.json();
 
     if(usu == null){
