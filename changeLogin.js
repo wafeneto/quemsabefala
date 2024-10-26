@@ -70,19 +70,21 @@ export default  function   ChangeLogin({navigation}) {
 
   return (
     <View style={{ flex: 1, padding: 24 }}>
-    <View style={{ flex: 1, flexDirection: 'column', justifyContent:  'space-between'}}>
-        <Text style={{ fontSize: 14, color: 'green', textAlign: 'center', paddingBottom: 10}}>
-Troque o usuario logado ...
-</Text></View>
+   
 
 
 <SafeAreaView>
+<Text style={{ fontSize: 14, color: 'green', textAlign: 'center', paddingBottom: 10}}>
+Login
+</Text>
 <TextInput
         style={styles.input}
         onChangeText={setLogin}
         value={login}
       />
-
+<Text style={{ fontSize: 14, color: 'green', textAlign: 'center', paddingBottom: 10}}>
+Senha
+</Text>
 <TextInput
         style={styles.input}
         onChangeText={setSenha}
@@ -110,9 +112,9 @@ Troque o usuario logado ...
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: "#ffffff",
   },
   input: {
     height: 40,
