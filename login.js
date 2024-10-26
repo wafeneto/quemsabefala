@@ -72,7 +72,7 @@ export default  function   Login({navigation}) {
     Kodefy.colaborador = usu // registra usuario no servvico para compartilhar com demais telas
 
     // recuperando usuario do storage e navegando para tela com funcionalidades do sistema
-    navigation.navigate("quem sabe fala",{nome:"waldyr"})
+    //navigation.navigate("quem sabe fala",{nome:"waldyr"})
 
   })
 
@@ -85,22 +85,28 @@ inicio
 
 
 <SafeAreaView>
+<Text style={{ fontSize: 14, color: 'green', textAlign: 'center', paddingBottom: 10}}>
+Login
+</Text>
 <TextInput
         style={styles.input}
         onChangeText={setLogin}
         value={login}
       />
-
+<Text style={{ fontSize: 14, color: 'green', textAlign: 'center', paddingBottom: 10}}>
+Senha
+</Text>
 <TextInput
         style={styles.input}
         onChangeText={setSenha}
+        secureTextEntry={true}
         value={senha}
       />
 
 
      
      <Button
-        title="Insere Pergunta ! "
+        title="Valida login ! "
         onPress={() => flogin(navigation)}
       />
 
