@@ -72,7 +72,7 @@ export default  function   Login({navigation}) {
     Kodefy.colaborador = usu // registra usuario no servvico para compartilhar com demais telas
 
     // recuperando usuario do storage e navegando para tela com funcionalidades do sistema
-    //navigation.navigate("quem sabe fala",{nome:"waldyr"})
+    navigation.navigate("quem sabe fala")
 
   })
 
